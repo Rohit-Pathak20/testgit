@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Hub | Rohit Pathak</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .header-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            background-color: rgba(79, 70, 229, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo {
+            padding: 5rem 0;
+            background-color: #f3f4f6;
+        }
+        
+        .demo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header h3 {
+            margin-left: 10px;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background-color: var(--light-gray);
+            margin-left: auto;
+        }
+        
+        .ai-message {
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .chat-input button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Wikipedia Search Styles */
+        .wiki-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .wiki-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .wiki-header h3 {
+            margin-left: 10px;
+        }
+        
+        .wiki-search {
+            display: flex;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .wiki-search input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .wiki-search button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .wiki-search button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .wiki-content {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .wiki-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .wiki-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .wiki-content .wiki-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: block;
+        }
+        
+        .wiki-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .wiki-link:hover {
+            text-decoration: underline;
+        }
+        
+        .about {
+            padding: 5rem 0;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .about-image {
+            flex: 1;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .social-links {
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-style: italic;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>AI Assistant Hub</h1>
+                <p>Your Personal Intelligent Assistant Powered by Advanced AI</p>
+                <a href="#demo" class="btn">Try Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Features</h2>
+                <p>Discover what our AI assistant can do to make your life easier</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Smart Conversations</h3>
+                    <p>Engage in natural conversations with our AI that understands context and provides meaningful responses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Task Automation</h3>
+                    <p>Let our AI handle routine tasks, schedule appointments, and set reminders so you can focus on what matters.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Intelligent Search</h3>
+                    <p>Get answers to your questions instantly with our AI's ability to process and analyze vast amounts of information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="section-title">
+                <h2>Try It Yourself</h2>
+                <p>Experience the power of our AI assistant with this interactive demo</p>
+            </div>
+            <div class="demo-container">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Assistant</h3>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message ai-message">
+                            Hello! I'm your AI assistant. How can I help you today?
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="user-input" placeholder="Type your message here...">
+                        <button id="send-btn"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                
+                <!-- Wikipedia Search Component -->
+                <div class="wiki-container">
+                    <div class="wiki-header">
+                        <i class="fas fa-book"></i>
+                        <h3>Wikipedia Knowledge Base</h3>
+                    </div>
+                    <div class="wiki-search">
+                        <input type="text" id="wiki-search-input" placeholder="Search for any topic...">
+                        <button id="wiki-search-btn"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    <div id="wiki-content" class="wiki-content">
+                        <p>Enter a search term above to access Wikipedia information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://placehold.co/600x400/4f46e5/ffffff?text=AI+Technology" alt="AI Technology">
+                </div>
+                <div class="about-text">
+                    <h2>About AI Assistant Hub</h2>
+                    <p>AI Assistant Hub is a cutting-edge project designed to demonstrate the capabilities of modern artificial intelligence in enhancing daily productivity and solving complex problems.</p>
+                    <p>Built with a focus on natural language processing and machine learning, our AI assistant understands user intent, learns from interactions, and provides intelligent responses tailored to your needs.</p>
+                    <p>This project showcases the practical applications of AI in various domains and how it can be integrated into web applications for a seamless user experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3>AI Assistant Hub</h3>
+            <p>Designed & Developed by Rohit Pathak</p>
+            <div class="social-links">
+                <a href="https://github.com/Rohit-Pathak20" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/rohit-pathak-847009329/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p>&copy; 2025 AI Assistant Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Demo chat functionality
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        
+        // Sample responses for the demo
+        const aiResponses = [
+            "I can help you with that! What specific information are you looking for?",
+            "Based on my analysis, here are some recommendations that might help you.",
+            "That's an interesting question. Let me process that for you.",
+            "I've found several resources that might be useful for your query.",
+            "I understand what you're asking. Here's what I can tell you about that topic."
+        ];
+        
+        function addMessage(content, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+            messageDiv.textContent = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function getRandomResponse() {
+            return aiResponses[Math.floor(Math.random() * aiResponses.length)];
+        }
+        
+        function handleUserInput() {
+            const message = userInput.value.trim();
+            if (message !== '') {
+                addMessage(message, true);
+                userInput.value = '';
+                
+                // Simulate AI thinking with a delay
+                setTimeout(() => {
+                    addMessage(getRandomResponse(), false);
+                }, 1000);
+            }
+        }
+        
+        sendBtn.addEventListener('click', handleUserInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserInput();
+            }
+        });
+        
+        // Wikipedia search functionality
+        const wikiSearchInput = document.getElementById('wiki-search-input');
+        const wikiSearchBtn = document.getElementById('wiki-search-btn');
+        const wikiContent = document.getElementById('wiki-content');
+        
+        async function searchWikipedia(searchTerm) {
+            if (!searchTerm) return;
+            
+            // Show loading state
+            wikiContent.innerHTML = '<div class="loading">Searching Wikipedia...</div>';
+            
+            try {
+                // Fetch data from Wikipedia API
+                const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // Check if we got a valid result
+                if (data.type === 'disambiguation') {
+                    wikiContent.innerHTML = `
+                        <h4>Multiple results found for "${searchTerm}"</h4>
+                        <p>Please be more specific in your search query.</p>
+                    `;
+                    return;
+                }
+                
+                // Build the content HTML
+                let contentHTML = `
+                    <h4>${data.title}</h4>
+                    <p>${data.extract}</p>
+                `;
+                
+                // Add thumbnail if available
+                if (data.thumbnail && data.thumbnail.source) {
+                    contentHTML += `
+                        <img class="wiki-image" src="${data.thumbnail.source}" alt="${data.title}">
+                    `;
+                }
+                
+                // Add link to full Wikipedia article
+                contentHTML += `
+                    <a href="${data.content_urls.desktop.page}" target="_blank" class="wiki-link">
+                        Read more on Wikipedia <i class="fas fa-external-link-alt"></i>
+                    </a>
+                `;
+                
+                wikiContent.innerHTML = contentHTML;
+            } catch (error) {
+                wikiContent.innerHTML = `
+                    <h4>Error</h4>
+                    <p>Sorry, we couldn't find information about "${searchTerm}". Please try another search.</p>
+                `;
+            }
+        }
+        
+        wikiSearchBtn.addEventListener('click', () => {
+            searchWikipedia(wikiSearchInput.value.trim());
+        });
+        
+        wikiSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchWikipedia(wikiSearchInput.value.trim());
+            }
+        });
+    </script>
+</body>
+</html>
